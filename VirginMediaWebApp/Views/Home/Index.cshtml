@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Service.Model.CatalogueDataCore>;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Catalogue Details</h1>
+    <p>Detials of all the Products as per regions and prices</p>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Segment</th>
+                <th>Country</th>
+                <th>Product</th>
+                <th>Discount Band</th>
+                <th>Units Sold</th>
+                <th>Manufacturing Price</th>
+                <th>Sale Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var catalogue in Model)
+            {
+                <tr>
+                    <td>@catalogue.Segment</td>
+                    <td>@catalogue.Country</td>
+                    <td>@catalogue.Product</td>
+                    <td>@catalogue.DiscountBand</td>
+                    <td>@catalogue.UnitsSold</td>
+                    <td>@catalogue.ManufacturingPrice</td>
+                    <td>@catalogue.SalePrice</td>
+                    <td>@catalogue.Date.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

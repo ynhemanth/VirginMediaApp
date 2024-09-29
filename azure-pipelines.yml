@@ -9,7 +9,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'VirginMediaApp/WebApplication1/*.sln'
+  solution: 'VirginMediaApp/VirginMediaWebApp/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -32,7 +32,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: 'VirginMediaApp/WebApplication1/*.csproj'
+    projects: 'VirginMediaApp/VirginMediaWebApp/*.csproj'
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     
 - task: PublishBuildArtifacts@1

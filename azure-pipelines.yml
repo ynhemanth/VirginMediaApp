@@ -3,42 +3,50 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
-trigger: none
+trigger:
+- main
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'VirginMediaApp/VirginMediaWebApp/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  azureSubscription: 'ce60c81e-f8ee-413a-a8fe-e84546574728'
+  appName: 'NewTutorialWebApp'
+  resourceGroupName: 'newTutorial-rg'
 
 steps:
-- task: NuGetToolInstaller@1
-  name: 'NuGetToolInstaller'
-  displayName: 'NuGet Tool Installer'
-  
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x.x' # Specify the .NET Core 8 SDK version
 
-- task: NuGetCommand@2
-  name: 'NuGetPackage'
-  displayName: 'NuGet Package'
+- task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    restoreSolution: '$(solution)'
-    feedsToUse: 'select'
+    projects: '*/.csproj'
+
 - task: DotNetCoreCLI@2
-  name: 'Publish'
-  displayName: 'Publish'
+  inputs:
+    command: 'build'
+    projects: '*/.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    projects: 'VirginMediaApp/VirginMediaWebApp/*.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    
+    projects: '*/.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
 - task: PublishBuildArtifacts@1
-  name: 'PublishArtifacts'
-  displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: '$(azureSubscription)'
+    appName: '$(appName)'
+    resourceGroupName: '$(resourceGroupName)'
+    package: '$(Build.ArtifactStagingDirectory)/*/.zip'

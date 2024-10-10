@@ -6,7 +6,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/WebApplication1/VirginMediaApp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 

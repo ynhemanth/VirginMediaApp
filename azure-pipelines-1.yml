@@ -1,0 +1,61 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/WebApplication1/*.sln'
+  project: '**/WebApplication1/*.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+#- task: VSBuild@1
+#  inputs:
+#    solution: '$(solution)'
+#    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+#    platform: '$(buildPlatform)'
+#    
+
+#- task: VSTest@2
+#  inputs:
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(ce60c81e-f8ee-413a-a8fe-e84546574728)'
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(ce60c81e-f8ee-413a-a8fe-e84546574728)'
+    command: 'publish'
+    publishWebProjects: false
+    projects: '$(project)'
+    arguments: 'configuration $(buildConfiguration)  --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
+
+
+- task: DownloadBuildArtifacts@1
+  inputs:
+    buildType: 'current'
+    downloadType: 'specific'
+    downloadPath: '$(System.ArtifactsDirectory)'
+    
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'Azure subscription 1(1)(ce60c81e-f8ee-413a-a8fe-e84546574728)'
+    appType: 'webApp'
+    appName: 'NewTutorialWebApp'
+    package: '$(System.ArtifactsDirectory)/**/*.zip'
+    deploymentMethod: 'auto'

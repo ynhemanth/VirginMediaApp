@@ -80,13 +80,21 @@ steps:
     projects: '**/VirginMediaWebApp/VirginMediaWebApp.csproj' 
     arguments: '--configuration Release'
 
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)' 
+    zipAfterPublish: true 
+    projects: '**/VirginMediaWebApp/VirginMediaWebApp.csproj' 
+
 # Step 7: Artifact Publish (optional)
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Publish Build Artifacts'
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactsDirectory)'
-#     ArtifactName: 'drop'
-#     publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
+  inputs:
+     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+     ArtifactName: 'drop'
 
 - task: DownloadBuildArtifacts@1
   displayName: 'Download Artifacts'

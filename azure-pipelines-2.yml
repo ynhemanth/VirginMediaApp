@@ -72,14 +72,22 @@ steps:
     projects: '**/*.Tests.csproj' # Modify based on your test project structure
     arguments: '--configuration $(buildConfiguration) --no-build --verbosity normal'
 
-# Step 4: Publish the Web Layer (Presentation Layer)
+# Step 4: Build the Web Layer (Presentation Layer)
 - task: DotNetCoreCLI@2
-  displayName: 'Publish Web Project'
+  displayName: 'Build Web Project'
   inputs:
     command: 'build'
     projects: '**/VirginMediaWebApp/VirginMediaWebApp.csproj' 
     arguments: '--configuration Release'
 
+# Step 7: Artifact Publish (optional)
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts'
+  inputs:
+    PathtoPublish: '$(publishDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  
 # Step 5: Deploy to Azure Web App
 - task: AzureWebApp@1
   displayName: 'Deploy to Azure Web App'
@@ -104,13 +112,5 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/Repository.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'
+    arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'  
 
-
-# Step 7: Artifact Publish (optional)
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts'
-  inputs:
-    PathtoPublish: '$(publishDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'

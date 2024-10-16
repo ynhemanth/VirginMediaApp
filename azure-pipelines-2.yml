@@ -100,17 +100,17 @@ steps:
     deploymentMethod: 'auto'
 
 # Step 6: Publish other layers (if applicable)
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Service Layer'
-  inputs:
-    command: 'publish'
-    projects: '**/Service.csproj' 
-    arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish Service Layer'
+#   inputs:
+#     command: 'publish'
+#     projects: '**/Service.csproj' 
+#     arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Domain Layer'
-  inputs:
-    command: 'publish'
-    projects: '**/Repository.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'  
+# - task: DotNetCoreCLI@2
+#   displayName: 'Publish Domain Layer'
+#   inputs:
+#     command: 'publish'
+#     projects: '**/Repository.csproj'
+#     arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'  
 

@@ -58,11 +58,11 @@ steps:
     restoreSolution: '$(solution)'
 
 # Step 2: Build the solution
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '$(solution)'
-    arguments: '--configuration $(buildConfiguration)'
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'build'
+#     projects: '$(solution)'
+#     arguments: '--configuration $(buildConfiguration)'
 
 # Step 3: Run unit tests (optional, if you have tests)
 - task: DotNetCoreCLI@2

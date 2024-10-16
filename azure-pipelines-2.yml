@@ -84,10 +84,17 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
   inputs:
-    PathtoPublish: '$(publishDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
-  
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'  
+
+- task: DownloadBuildArtifacts@1
+  displayName: 'Download Artifacts'
+  inputs:
+    buildType: 'current'
+    ArtifactName: 'drop'  
+    downloadType: 'specific'
+    downloadPath: '$(System.ArtifactsDirectory)'
+    
 # Step 5: Deploy to Azure Web App
 - task: AzureWebApp@1
   displayName: 'Deploy to Azure Web App'

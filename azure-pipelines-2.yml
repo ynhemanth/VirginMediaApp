@@ -51,7 +51,6 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.x' 
 
 # Step 1: Restore NuGet packages
 - task: NuGetCommand@2

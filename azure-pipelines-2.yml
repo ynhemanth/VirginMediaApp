@@ -84,8 +84,9 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'  
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/VirginMediaWebApp/*'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 
 - task: DownloadBuildArtifacts@1
   displayName: 'Download Artifacts'

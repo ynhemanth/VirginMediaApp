@@ -111,7 +111,7 @@ steps:
     azureSubscription: 'Azure subscription 1(1)(ce60c81e-f8ee-413a-a8fe-e84546574728)'
     appType: 'webApp'
     appName: 'NewTutorialWebApp' 
-    package: '$(System.ArtifactsDirectory)/**/*.zip'
+    package: '$(System.ArtifactsDirectory)/VirginMediaWebApp.zip'
     runtimeStack: 'DOTNETCORE|8.0' 
     deploymentMethod: 'auto'
 

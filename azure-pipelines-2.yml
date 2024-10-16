@@ -76,9 +76,9 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Publish Web Project'
   inputs:
-    command: 'publish'
+    command: 'build'
     projects: '**/VirginMediaWebApp/VirginMediaWebApp.csproj' 
-    arguments: '--configuration $(buildConfiguration) --output $(publishDirectory)'
+    arguments: '--configuration Release'
 
 # Step 5: Deploy to Azure Web App
 - task: AzureWebApp@1

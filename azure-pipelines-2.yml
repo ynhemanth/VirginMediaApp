@@ -43,7 +43,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  solution: '**/*.sln'
+  solution: '**/VirginMediaWebApp/WebApplication1/*.sln'
   buildPlatform: 'Any CPU'
   publishDirectory: '$(Build.ArtifactStagingDirectory)/publish'
 
